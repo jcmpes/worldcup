@@ -26,10 +26,16 @@ class Playoffs {
         // Play the matches
         const results = []
         for(const match in this.matchDays) {
-            results[match] = [
-                Math.floor(Math.random() * 7),
-                Math.floor(Math.random() * 7),
-            ]
+            results[match] = [0,0]
+
+            while(results[match][0] == results[match][1]) {
+                // results[match][2] = '🙃';
+                results[match] = [
+                    Math.floor(Math.random() * 7),
+                    Math.floor(Math.random() * 7),              
+                ]
+
+            }
         }
         console.log('RESULTS', results)
 
@@ -39,9 +45,7 @@ class Playoffs {
         const result = []
         result[0] = Math.floor(Math.random()) * 6;
         result[1] = Math.floor(Math.random()) * 6;
-        
     }
-
     
 }
 
