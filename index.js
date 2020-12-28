@@ -6,8 +6,9 @@ console.log('TEAMS', teams);
 
 class Playoffs {
     constructor(name, teams) {
-        this.schedule = [],
-        this.matchDays = [],
+        this.winners16 = [],
+        this.results16 = [],
+        this.matchDays16 = [],
         this.name = name,
         this.teams = teams
     };
@@ -20,15 +21,14 @@ class Playoffs {
     roundOf16(teamsToSchedule) {
         // Schedule matches
         for(let i = 0; i < 8; i = i+2) {
-            this.matchDays.push(new Array(teamsToSchedule[i], teamsToSchedule[i+1]))
+            this.matchDays16.push(new Array(teamsToSchedule[i], teamsToSchedule[i+1]))
         };
-        console.log('MATCHES', this.matchDays);
+        console.log('MATCHES', this.matchDays16);
         // Play the matches
-        const results = [];
-        for(const match in this.matchDays) {
-            results.push(this.playMatch())
+        for(const match in this.matchDays16) {
+            this.results16.push(this.playMatch())
         };
-        console.log('RESULTS', results)
+        console.log('RESULTS', this.results16);
     };
 
     playMatch() {
@@ -36,20 +36,26 @@ class Playoffs {
         while(result[0] == result[1]) {
             result = [
                 Math.floor(Math.random() * 7),
-                Math.floor(Math.random() * 7),              
+                Math.floor(Math.random() * 7)              
             ]
+        };
+        return result
+    };
+
+    winners() {
+        // Show who passes to the next round
+        for(let i = 0; i < this.matchDays16.length; i++ ) {
+            if(this.results16[i][0] > this.results16[0][1]) {
+                this.winners16.push(this.matchDays16[i][0])
+            } else {
+                this.winners16.push(this.matchDays16[i][1])
+            }
         }
-        return result;
-    }
-
-    standings() {
-        const standings = [];
-
-    }
+        console.log('WINNERS', this.winners16)
+    };
     
 }
 
 const worldCupPlayOffs = new Playoffs;
 worldCupPlayOffs.roundOf16(worldCupPlayOffs.shuffleTeams(teams))
-
-
+console.log(worldCupPlayOffs.winners())
