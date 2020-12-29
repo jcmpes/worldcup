@@ -44,13 +44,23 @@ class Playoffs {
 
     winners() {
         // Show who passes to the next round
-        for(let i = 0; i < this.matchDays16.length; i++ ) {
-            if(this.results16[i][0] > this.results16[0][1]) {
-                this.winners16.push(this.matchDays16[i][0])
+        for(const match in this.matchDays16) {
+            if (this.results16[match][0] > this.results16[match][1]) {
+                this.winners16.push(this.matchDays16[match][0])
             } else {
-                this.winners16.push(this.matchDays16[i][1])
-            }
+                    this.winners16.push(this.matchDays16[match][1])
+            };          
         }
+        
+        // for(let i = 0; i < this.matchDays16.length; i++ ) {
+        //     if(this.results16[i][0] > this.results16[0][1]) {
+        //         console.log(`Gana ${this.matchDays16[i][0]}`)
+        //         // this.winners16.push(this.matchDays16[i][0])
+        //     } else {
+        //         console.log(`Gana ${this.matchDays16[i][1]}`)
+        //         // this.winners16.push(this.matchDays16[i][1])
+        //     }
+        // }
         console.log('WINNERS', this.winners16)
     };
     
