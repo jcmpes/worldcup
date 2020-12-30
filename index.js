@@ -6,9 +6,10 @@ console.log('TEAMS', teams);
 
 class Playoffs {
     constructor(name, teams) {
-        this.winners16 = [],
-        this.results16 = [],
-        this.matchDays16 = [],
+        this.teamsToNextRound = [],
+        this.resultsOfRound = [],
+        this.matchDays = [],
+        this.thirdPlace = [],
         this.name = name,
         this.teams = teams
     };
@@ -18,19 +19,19 @@ class Playoffs {
         return shuffledTeams;      
     };
 
-    roundOf16(teamsToSchedule) {
+    newRound(teamsToSchedule) {
         // Schedule matches
-        this.matchDays16 = [];
+        this.matchDays = [];
         for(let i = 0; i < teamsToSchedule.length; i = i+2) {
-            this.matchDays16.push(new Array(teamsToSchedule[i], teamsToSchedule[i+1]))
+            this.matchDays.push(new Array(teamsToSchedule[i], teamsToSchedule[i+1]))
         };
-        console.log('MATCHES', this.matchDays16);
+        console.log('MATCHES', this.matchDays);
         // Play the matches
-        this.results16 = [];
-        for(const match in this.matchDays16) {
-            this.results16.push(this.playMatch())
+        this.resultsOfRound = [];
+        for(const match in this.matchDays) {
+            this.resultsOfRound.push(this.playMatch())
         };
-        console.log('RESULTS', this.results16);
+        console.log('RESULTS', this.resultsOfRound);
     };
 
     playMatch() {
@@ -46,19 +47,25 @@ class Playoffs {
 
     winners() {
         // Show who passes to the next round
-        for(const match in this.matchDays16) {
-            if (this.results16[match][0] > this.results16[match][1]) {
-                this.winners16.push(this.matchDays16[match][0])
+        this.teamsToNextRound = [];
+        for(const match in this.matchDays) {
+            if (this.resultsOfRound[match][0] > this.resultsOfRound[match][1]) {
+                this.teamsToNextRound.push(this.matchDays[match][0])
             } else {
-                this.winners16.push(this.matchDays16[match][1])
+                this.teamsToNextRound.push(this.matchDays[match][1])
             };          
         }
 
-        console.log('WINNERS', this.winners16)
+        console.log('WINNERS', this.teamsToNextRound)
     }
 };
 
 const worldCupPlayOffs = new Playoffs;
-worldCupPlayOffs.roundOf16(worldCupPlayOffs.shuffleTeams(teams))
-console.log(worldCupPlayOffs.winners())
-worldCupPlayOffs.roundOf16(worldCupPlayOffs.winners16)
+worldCupPlayOffs.newRound(worldCupPlayOffs.shuffleTeams(teams));
+console.log(worldCupPlayOffs.winners());
+worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound);
+console.log(worldCupPlayOffs.winners());
+worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound)
+console.log(worldCupPlayOffs.winners());
+worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound)
+console.log(worldCupPlayOffs.winners());
