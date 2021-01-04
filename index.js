@@ -2,12 +2,11 @@
 const NORMAL_MODE = 0;
 const THIRD_PLACE_MODE = 1;
 
+// Import teams from txt local file
 const { worker } = require("cluster");
 var fs = require("fs");
 var text = fs.readFileSync("./16teams.txt");
 const teams = text.toString().split("\n");
-
-// console.log('TEAMS', teams);
 
 class Playoffs {
     constructor(name, teams) {
@@ -120,6 +119,6 @@ while (worldCupPlayOffs.teamsToNextRound.length > 1) {
             console.log('\n===== FINAL =====\n');
             break;
         case 1:
-            console.log(`\n=========================================\n🏆 ¡ ${worldCupPlayOffs.teamsToNextRound[0]} campeón del mundo ! 🎉\n=========================================`);       
+            console.log(`\n=========================================\n🏆 ¡ ${worldCupPlayOffs.teamsToNextRound[0]} campeón del mundo ! 🎉\n=========================================\n`);       
     }
 }
