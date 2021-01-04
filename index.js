@@ -26,12 +26,11 @@ class Playoffs {
         for(let i = 0; i < teamsToSchedule.length; i = i+2) {
             this.matchDays.push(new Array(teamsToSchedule[i], teamsToSchedule[i+1]))
         };
-        // console.log('MATCHES', this.matchDays);
 
         // Play the matches
         this.resultsOfRound = [];
         this.matchDays.forEach(match => this.resultsOfRound.push(this.playMatch()))
-        // console.log('RESULTS', this.resultsOfRound);
+
 
         // Store the winners for the next round
         this.winners();
@@ -54,7 +53,7 @@ class Playoffs {
     };
 
     winners() {
-        // Show who passes to the next round
+        // Store who passes to the next round
         this.teamsToNextRound = [];
         for(const match in this.matchDays) {
             if (this.resultsOfRound[match][0] > this.resultsOfRound[match][1]) {
@@ -69,7 +68,38 @@ class Playoffs {
 
 const worldCupPlayOffs = new Playoffs;
 worldCupPlayOffs.teamsToNextRound = worldCupPlayOffs.shuffleTeams(teams);
+console.log(`
+==================================================
+====== COMIENZO DE LA FASE DE ELIMINATORIAS ======
+==================================================
 
+===== OCTAVOS DE FINAL =====
+`);
 while (worldCupPlayOffs.teamsToNextRound.length > 1) {
-    worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound);   
+    
+    worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound);
+    switch(worldCupPlayOffs.teamsToNextRound.length) {
+        case 8:
+            console.log('\n===== CUARTOS DE FINAL =====\n')
+            break;
+        case 4:
+            console.log('\n===== SEMIFINALES =====\n')
+            break;
+        case 2:
+            console.log('\n===== FINAL =====\n')
+            break;
+        case 1:
+            console.log(`
+            ======================================
+            🏆 ¡ ${worldCupPlayOffs.teamsToNextRound[0]} campeón del mundo ! 🎉
+            ======================================
+            `);
+           
+    }
+    // console.log('NEW ROUND');
+    
+    
+    // if (worldCupPlayOffs.teamsToNextRound.length = 1) {
+        
+    // } else
 }
