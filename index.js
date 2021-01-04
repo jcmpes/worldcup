@@ -3,7 +3,7 @@ var fs = require("fs");
 var text = fs.readFileSync("./16teams.txt");
 const teams = text.toString().split("\n");
 
-console.log('TEAMS', teams);
+// console.log('TEAMS', teams);
 
 class Playoffs {
     constructor(name, teams) {
@@ -26,13 +26,20 @@ class Playoffs {
         for(let i = 0; i < teamsToSchedule.length; i = i+2) {
             this.matchDays.push(new Array(teamsToSchedule[i], teamsToSchedule[i+1]))
         };
-        console.log('MATCHES', this.matchDays);
+        // console.log('MATCHES', this.matchDays);
+
         // Play the matches
         this.resultsOfRound = [];
+        this.matchDays.forEach(match => this.resultsOfRound.push(this.playMatch()))
+        // console.log('RESULTS', this.resultsOfRound);
+
+        // Store the winners for the next round
+        this.winners();
+
+        // Show status
         for(const match in this.matchDays) {
-            this.resultsOfRound.push(this.playMatch())
-        };
-        console.log('RESULTS', this.resultsOfRound);
+            console.log(`${this.matchDays[match][0]} ${this.resultsOfRound[match][0]} - ${this.resultsOfRound[match][1]} ${this.matchDays[match][1]} => ${this.teamsToNextRound[match]}`)
+        }
     };
 
     playMatch() {
@@ -56,15 +63,13 @@ class Playoffs {
                 this.teamsToNextRound.push(this.matchDays[match][1])
             };          
         }
-        console.log('WINNERS', this.teamsToNextRound)
+        // console.log('WINNERS', this.teamsToNextRound)
     }
 };
 
 const worldCupPlayOffs = new Playoffs;
 worldCupPlayOffs.teamsToNextRound = worldCupPlayOffs.shuffleTeams(teams);
-console.log(worldCupPlayOffs.teamsToNextRound);
 
 while (worldCupPlayOffs.teamsToNextRound.length > 1) {
-    worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound);
-    console.log(worldCupPlayOffs.winners());
+    worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound);   
 }
