@@ -120,9 +120,6 @@ while (worldCupPlayOffs.teamsToNextRound.length > 1) {
             console.log('\n===== FINAL =====\n');
             break;
         case 1:
-            console.log(`\n=========================================\n🏆 ¡ ${worldCupPlayOffs.teamsToNextRound[0]} campeón del mundo ! 🎉\n=========================================`);
-           
+            console.log(`\n=========================================\n🏆 ¡ ${worldCupPlayOffs.teamsToNextRound[0]} campeón del mundo ! 🎉\n=========================================`);       
     }
-    // console.log('NEW ROUND');
-    
 }
