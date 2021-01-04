@@ -1,3 +1,4 @@
+const { worker } = require("cluster");
 var fs = require("fs");
 var text = fs.readFileSync("./16teams.txt");
 const teams = text.toString().split("\n");
@@ -55,17 +56,15 @@ class Playoffs {
                 this.teamsToNextRound.push(this.matchDays[match][1])
             };          
         }
-
         console.log('WINNERS', this.teamsToNextRound)
     }
 };
 
 const worldCupPlayOffs = new Playoffs;
-worldCupPlayOffs.newRound(worldCupPlayOffs.shuffleTeams(teams));
-console.log(worldCupPlayOffs.winners());
-worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound);
-console.log(worldCupPlayOffs.winners());
-worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound)
-console.log(worldCupPlayOffs.winners());
-worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound)
-console.log(worldCupPlayOffs.winners());
+worldCupPlayOffs.teamsToNextRound = worldCupPlayOffs.shuffleTeams(teams);
+console.log(worldCupPlayOffs.teamsToNextRound);
+
+while (worldCupPlayOffs.teamsToNextRound.length > 1) {
+    worldCupPlayOffs.newRound(worldCupPlayOffs.teamsToNextRound);
+    console.log(worldCupPlayOffs.winners());
+}
