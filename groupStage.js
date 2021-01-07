@@ -21,16 +21,17 @@ class League {
     setGroups(teams) {
         let groupId = 97;
         let teamId = 0;
+
+        // Generate n groups where n = teams.length / 4
         for (let i = 0; i < teams.length; i = i + 4) {           
             this.groups[String.fromCharCode(groupId)] = [];
             
-            
+            // Fill groups with 4 teams each          
             for (let j = 0; j < 4; j++) {
                 this.groups[String.fromCharCode(groupId)].push(teams[teamId])
                 teamId++;
             };
-            groupId++;
-            
+            groupId++;            
         }
         console.log(this.groups)
 
