@@ -8,7 +8,9 @@ import fs from 'fs';
 var text = fs.readFileSync("./16teams.txt");
 const teams = text.toString().split("\n");
 
+// import Championship from './classes/Championship.js'
 import Playoffs from './classes/Playoffs.js'
+
 
 const worldCupPlayOffs = new Playoffs;
 worldCupPlayOffs.teamsToNextRound = worldCupPlayOffs.shuffleTeams(teams);

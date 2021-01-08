@@ -2,8 +2,11 @@
 const NORMAL_MODE = 0;
 const THIRD_PLACE_MODE = 1;
 
-export default class Playoffs {
+import Championship from './Championship.js'
+
+export default class Playoffs extends Championship {
     constructor(name, teams) {
+        super(),
         this.teamsToNextRound = [],
         this.resultsOfRound = [],
         this.matchDays = [],
@@ -13,10 +16,7 @@ export default class Playoffs {
         this.teams = teams
     };
 
-    shuffleTeams(teamsToShuffle) {
-        const shuffledTeams = teamsToShuffle.sort(() => Math.random() - 0.5);
-        return shuffledTeams;      
-    };
+    
 
     newRound(teamsToSchedule, mode) {
         // Schedule matches
@@ -47,16 +47,6 @@ export default class Playoffs {
         }
     };
 
-    playMatch() {
-        let result = [0,0];
-        while(result[0] == result[1]) {
-            result = [
-                Math.floor(Math.random() * 7),
-                Math.floor(Math.random() * 7)              
-            ]
-        };
-        return result
-    };
 
     winners(mode) {
         // Store who passes to the next round
