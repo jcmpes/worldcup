@@ -12,6 +12,7 @@
   },
   "author": "JC",
   "license": "ISC",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/jcmpes/worldcup/issues"
   },
