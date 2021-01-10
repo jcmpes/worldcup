@@ -1,6 +1,4 @@
-// Define normal playoffs mode and third place mode
-const NORMAL_MODE = 0;
-const THIRD_PLACE_MODE = 1;
+import { NORMAL_MODE, THIRD_PLACE_MODE }  from './classes/Playoffs.js';
 
 // Import teams from txt local file
 // var fs = require("fs");

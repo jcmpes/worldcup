@@ -1,6 +1,6 @@
 // Define normal playoffs mode and third place mode
-const NORMAL_MODE = 0;
-const THIRD_PLACE_MODE = 1;
+export const NORMAL_MODE = 0;
+export const THIRD_PLACE_MODE = 1;
 
 import Championship from './Championship.js'
 
