@@ -32,7 +32,30 @@ class League {
         }
         console.log(this.groups);
     }
+
+    setSchedule(group) {
+        const fixture = [];
+        const numberOfTeams = group.length;
+        const rounds = numberOfTeams - 1;
+        const matchesPerRound = numberOfTeams / 2;
+
+        for (let i = 0; i < rounds; i++) {
+            const round = [];
+            for (let j = 0; j < matchesPerRound; j++) {
+                const match = ['Local', 'Away'];
+                round.push(match)
+            }
+            fixture.push(round)
+            
+        }
+        console.table(fixture)
+    }
+
 }
 
 const groupStage = new League('groups', teams)
 groupStage.setGroups(groupStage.shuffleTeams(teams))
+for (const group of groupStage.groups) {
+    groupStage.setSchedule(group);
+
+}
