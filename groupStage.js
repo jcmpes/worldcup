@@ -1,4 +1,4 @@
-var fs = require("fs");
+import fs from 'fs';
 var text = fs.readFileSync("./teams.txt");
 const teams = text.toString().split("\n");
 
