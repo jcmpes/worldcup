@@ -71,13 +71,23 @@ class League {
 
         // Add away teams
         this.schedule.forEach(fixture => {
-            let teamId = group.length - 1;
+            let teamId = numberOfTeams - 1;
             fixture.forEach(round => {
                 round[1][1] = group[teamId];
                 teamId--;
             })
         })
+        
+
+        // Add last team as away team in each round's first match
+        this.schedule.forEach(fixture => {
+            fixture.forEach(round => {
+                round[0][1] = group[numberOfTeams - 1]
+            })
+        })
         console.table(fixture);
+
+        
     }
 
 }
