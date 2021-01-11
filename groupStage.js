@@ -67,15 +67,17 @@ class League {
                 
             });
         });
+        
+
+        // Add away teams
+        this.schedule.forEach(fixture => {
+            let teamId = group.length - 1;
+            fixture.forEach(round => {
+                round[1][1] = group[teamId];
+                teamId--;
+            })
+        })
         console.table(fixture);
-    }
-
-    addLocalTeams(group) {
-        const numberOfTeams = group.length;
-        const rounds = numberOfTeams - 1;
-        const matchesPerRound = numberOfTeams / 2;
-
-        let teamId = 0;
     }
 
 }
