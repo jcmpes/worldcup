@@ -1,3 +1,4 @@
+import { COPYFILE_FICLONE } from 'constants';
 import fs from 'fs';
 var text = fs.readFileSync("./teams.txt");
 const teams = text.toString().split("\n");
@@ -7,6 +8,7 @@ class League {
         this.name = name;
         this.teams = teams;
         this.groups = [];
+        this.schedule = [];
     };
 
     shuffleTeams(teamsToShuffle) {
@@ -43,12 +45,11 @@ class League {
             const round = [];
             for (let j = 0; j < matchesPerRound; j++) {
                 const match = ['Local', 'Away'];
-                round.push(match)
+                round.push(match);
             }
-            fixture.push(round)
-            
+            fixture.push(round);
         }
-        console.table(fixture)
+        this.schedule.push(fixture);
     }
 
 }
@@ -57,5 +58,8 @@ const groupStage = new League('groups', teams)
 groupStage.setGroups(groupStage.shuffleTeams(teams))
 for (const group of groupStage.groups) {
     groupStage.setSchedule(group);
+}
 
+for (const fixture of groupStage.schedule) {
+    console.table(fixture)
 }
