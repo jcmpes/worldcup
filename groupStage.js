@@ -71,7 +71,7 @@ class League {
 
         // Add away teams
         this.schedule.forEach(fixture => {
-            let teamId = numberOfTeams - 1;
+            let teamId = numberOfTeams - 2;
             fixture.forEach(round => {
                 round[1][1] = group[teamId];
                 teamId--;
@@ -85,9 +85,22 @@ class League {
                 round[0][1] = group[numberOfTeams - 1]
             })
         })
-        console.table(fixture);
-
         
+
+        // Fix last team as local team every other round
+        this.schedule.forEach(fixture => {
+            let roundNumber = 0;
+            fixture.forEach(round => {
+                if(roundNumber % 2 != 0) {
+                    const exLocalTeam = round[0][0];
+                    round[0][0] = round[0][1];
+                    round[0][1] = exLocalTeam;
+                }
+            roundNumber++;
+            })
+            
+        })
+        console.table(fixture);
     }
 
 }
