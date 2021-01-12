@@ -117,16 +117,118 @@ class League extends Championship{
         }
         this.results.push(groupResults)
 
-
-        // Print rounds
+        
+        // Create an array of 4 objects to store the results of each team in the group
+        const groupStandings = [
+            { teamName: group[0], points: null, goalsFor: null, goalsAgainst: null, goalsDiff: null },
+            { teamName: group[1], points: null, goalsFor: null, goalsAgainst: null, goalsDiff: null },
+            { teamName: group[2], points: null, goalsFor: null, goalsAgainst: null, goalsDiff: null },
+            { teamName: group[3], points: null, goalsFor: null, goalsAgainst: null, goalsDiff: null },
+        ]
+         
+        
+        // Print rounds results
         for (let i = 0; i < rounds; i++) {
             console.log('---------')
             console.log(`Jornada ${i}`)
             console.log('---------')  
             for (let j = 0; j < matchesPerRound; j++) {
-                console.log(`${fixture[i][j][0]} ${groupResults[i][j][0]} - ${groupResults[i][j][1]} ${fixture[i][j][1]}`);                        
+                console.log(`${fixture[i][j][0]} ${groupResults[i][j][0]} - ${groupResults[i][j][1]} ${fixture[i][j][1]}`);
+                // Update standings after match result is known
+                // When HOME TEAM team wins
+                if (groupResults[i][j][0] > groupResults[i][j][1]) {
+                    // Find who won and who lost
+                    let winningTeam = fixture[i][j][0];
+                    let losingTeam = fixture[i][j][1];
+                    // Find winner's and loser's positions in the groupStandings array
+                    let winnerToUpdate = null;
+                    let loserToUpdate = null;
+                    for (let l = 0; l <= 3; l++) {
+                        if (groupStandings[l].teamName == winningTeam) {
+                            winnerToUpdate = l
+                        }
+                        if (groupStandings[l].teamName == losingTeam) {
+                            loserToUpdate = l
+                        }
+                    }
+
+                
+                    //Update winner's standings
+                    groupStandings[winnerToUpdate].points += 3;
+                    groupStandings[winnerToUpdate].goalsFor += groupResults[i][j][0];
+                    groupStandings[winnerToUpdate].goalsAgainst += groupResults[i][j][1];
+                    groupStandings[winnerToUpdate].goalsDiff += (groupResults[i][j][0] - groupResults[i][j][1])
+
+                    // Update loser's standings
+                    groupStandings[loserToUpdate].points += 0;
+                    groupStandings[loserToUpdate].goalsFor += groupResults[i][j][1]
+                    groupStandings[loserToUpdate].goalsAgainst += groupResults[i][j][0]
+                    groupStandings[loserToUpdate].goalsDiff += (groupResults[i][j][1] - groupResults[i][j][0])
+
+                                        
+                } else if (groupResults[i][j][0] < groupResults[i][j][1]) {
+                    // When AWAY TEAM team wins
+                    // Find who won and who lost
+                    let winningTeam = fixture[i][j][0];
+                    let losingTeam = fixture[i][j][1];
+                    // Find winner's and loser's positions in the groupStandings array
+                    let winnerToUpdate = null;
+                    let loserToUpdate = null;
+                    for (let l = 0; l <= 3; l++) {
+                        if (groupStandings[l].teamName == winningTeam) {
+                            winnerToUpdate = l
+                        }
+                        if (groupStandings[l].teamName == losingTeam) {
+                            loserToUpdate = l
+                        }
+                    }
+
+                    //Update winner's standings
+                    groupStandings[winnerToUpdate].points += 3;
+                    groupStandings[winnerToUpdate].goalsFor += groupResults[i][j][0];
+                    groupStandings[winnerToUpdate].goalsAgainst += groupResults[i][j][1];
+                    groupStandings[winnerToUpdate].goalsDiff += (groupResults[i][j][0] - groupResults[i][j][1])
+
+                    // Update loser's standings
+                    groupStandings[loserToUpdate].points += 0;
+                    groupStandings[loserToUpdate].goalsFor += groupResults[i][j][1]
+                    groupStandings[loserToUpdate].goalsAgainst += groupResults[i][j][0]
+                    groupStandings[loserToUpdate].goalsDiff += (groupResults[i][j][1] - groupResults[i][j][0])
+                } else {
+                    // When match is a DRAW
+                    let team1 = fixture[i][j][0];
+                    let team2 = fixture[i][j][1];
+                    // Find winner's position in the groupStandings array
+                    let team1ToUpdate = null;
+                    let team2ToUpdate = null;
+                    for (let l = 0; l <= 3; l++) {
+                        if (groupStandings[l].teamName == team1) {
+                            team1ToUpdate = l
+                        }
+                        if (groupStandings[l].teamName == team2) {
+                            team2ToUpdate = l
+                        }
+                    }
+
+                    //Update winner's standings
+                    groupStandings[team1ToUpdate].points += 3;
+                    groupStandings[team1ToUpdate].goalsFor += groupResults[i][j][0];
+                    groupStandings[team1ToUpdate].goalsAgainst += groupResults[i][j][1];
+                    groupStandings[team1ToUpdate].goalsDiff += (groupResults[i][j][0] - groupResults[i][j][1])
+
+                    // Update loser's standings
+                    groupStandings[team2ToUpdate].points += 0;
+                    groupStandings[team2ToUpdate].goalsFor += groupResults[i][j][1]
+                    groupStandings[team2ToUpdate].goalsAgainst += groupResults[i][j][0]
+                    groupStandings[team2ToUpdate].goalsDiff += (groupResults[i][j][1] - groupResults[i][j][0])
+                }
+              
             }
+            console.log("TERMINO LA JORNADA")
+        
         }
+
+        // Print standings
     }
 }
 
