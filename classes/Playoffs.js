@@ -15,7 +15,6 @@ export default class Playoffs extends Championship {
         this.name = name,
         this.teams = teams
     };
-
     
 
     newRound(teamsToSchedule, mode) {

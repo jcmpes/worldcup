@@ -44,7 +44,7 @@ class League extends Championship{
         const matchesPerRound = numberOfTeams / 2;
 
         // Init schedule
-        const fixture = [];
+        let fixture = [];
         for (let i = 0; i < rounds; i++) {
             const round = [];
             for (let j = 0; j < matchesPerRound; j++) {
@@ -116,15 +116,24 @@ class League extends Championship{
             groupResults.push(roundResults)
         }
         this.results.push(groupResults)
-    }
 
+
+        // Print rounds
+        for (let i = 0; i < rounds; i++) {
+            console.log('---------')
+            console.log(`Jornada ${i}`)
+            console.log('---------')  
+            for (let j = 0; j < matchesPerRound; j++) {
+                console.log(`${fixture[i][j][0]} ${groupResults[i][j][0]} - ${groupResults[i][j][1]} ${fixture[i][j][1]}`);                        
+            }
+        }
+    }
 }
 
 const groupStage = new League('groups', teams)
 groupStage.setGroups(groupStage.shuffleTeams(teams))
 for (const group of groupStage.groups) {
+
     groupStage.setSchedule(group);
-}
-for (let i = 0; i < groupStage.results.length; i++) {
-    console.table(groupStage.results[i])
+
 }
