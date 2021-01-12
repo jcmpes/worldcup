@@ -224,7 +224,7 @@ class League extends Championship{
                 }
               
             }
-            console.log("TERMINO LA JORNADA")
+            console.table(groupStandings)
         
         }
 
@@ -234,8 +234,14 @@ class League extends Championship{
 
 const groupStage = new League('groups', teams)
 groupStage.setGroups(groupStage.shuffleTeams(teams))
+let groupId = 65;
 for (const group of groupStage.groups) {
-
+    console.log(" ");
+    console.log("#################");
+    console.log("##             ##");
+    console.log(`##   GRUPO ${String.fromCharCode(groupId)}   ##`);
+    console.log("##             ##");
+    console.log("#################");
     groupStage.setSchedule(group);
-
+    groupId++;
 }
