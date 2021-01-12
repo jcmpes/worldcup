@@ -15,7 +15,7 @@ export default class Playoffs extends Championship {
         this.name = name,
         this.teams = teams
     };
-    
+
 
     newRound(teamsToSchedule, mode) {
         // Schedule matches
@@ -26,7 +26,7 @@ export default class Playoffs extends Championship {
 
         // Play the matches
         this.resultsOfRound = [];
-        this.matchDays.forEach(match => this.resultsOfRound.push(this.playMatch()))
+        this.matchDays.forEach(match => this.resultsOfRound.push(this.playMatchNoDraw()))
 
 
         // Store the winners for the next round

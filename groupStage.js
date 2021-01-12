@@ -151,7 +151,6 @@ class League extends Championship{
                             loserToUpdate = l
                         }
                     }
-
                 
                     //Update winner's standings
                     groupStandings[winnerToUpdate].points += 3;
@@ -169,8 +168,8 @@ class League extends Championship{
                 } else if (groupResults[i][j][0] < groupResults[i][j][1]) {
                     // When AWAY TEAM team wins
                     // Find who won and who lost
-                    let winningTeam = fixture[i][j][0];
-                    let losingTeam = fixture[i][j][1];
+                    let winningTeam = fixture[i][j][1];
+                    let losingTeam = fixture[i][j][0];
                     // Find winner's and loser's positions in the groupStandings array
                     let winnerToUpdate = null;
                     let loserToUpdate = null;
@@ -198,7 +197,7 @@ class League extends Championship{
                     // When match is a DRAW
                     let team1 = fixture[i][j][0];
                     let team2 = fixture[i][j][1];
-                    // Find winner's position in the groupStandings array
+                    // Find team1's position in the groupStandings array
                     let team1ToUpdate = null;
                     let team2ToUpdate = null;
                     for (let l = 0; l <= 3; l++) {
@@ -210,14 +209,14 @@ class League extends Championship{
                         }
                     }
 
-                    //Update winner's standings
-                    groupStandings[team1ToUpdate].points += 3;
+                    //Update home team's standings
+                    groupStandings[team1ToUpdate].points += 1;
                     groupStandings[team1ToUpdate].goalsFor += groupResults[i][j][0];
                     groupStandings[team1ToUpdate].goalsAgainst += groupResults[i][j][1];
                     groupStandings[team1ToUpdate].goalsDiff += (groupResults[i][j][0] - groupResults[i][j][1])
 
-                    // Update loser's standings
-                    groupStandings[team2ToUpdate].points += 0;
+                    // Update away team's standings
+                    groupStandings[team2ToUpdate].points += 1;
                     groupStandings[team2ToUpdate].goalsFor += groupResults[i][j][1]
                     groupStandings[team2ToUpdate].goalsAgainst += groupResults[i][j][0]
                     groupStandings[team2ToUpdate].goalsDiff += (groupResults[i][j][1] - groupResults[i][j][0])
