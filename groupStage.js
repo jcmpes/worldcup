@@ -2,12 +2,16 @@ import fs from 'fs';
 var text = fs.readFileSync("./teams.txt");
 const teams = text.toString().split("\n");
 
-class League {
+import Championship from './classes/Championship.js'
+
+class League extends Championship{
     constructor(name, teams) {
+        super();
         this.name = name;
         this.teams = teams;
         this.groups = [];
         this.schedule = [];
+        this.results = [];
     };
 
     shuffleTeams(teamsToShuffle) {
@@ -49,7 +53,6 @@ class League {
             }
             fixture.push(round);
         }
-        
         this.schedule.push(fixture);
 
         // Add local teams
@@ -101,6 +104,18 @@ class League {
             
         })
         console.table(fixture);
+
+        // Generate results
+        const groupResults = []
+        for (let i = 0; i < rounds; i++) {
+            const roundResults = [];
+            for (let j = 0; j < matchesPerRound; j++) {
+                const matchResults = this.playMatch();
+                roundResults.push(matchResults)
+            }
+            groupResults.push(roundResults)
+        }
+        this.results.push(groupResults)
     }
 
 }
@@ -110,8 +125,6 @@ groupStage.setGroups(groupStage.shuffleTeams(teams))
 for (const group of groupStage.groups) {
     groupStage.setSchedule(group);
 }
-
-// for (const fixture of groupStage.schedule) {
-//     groupStage.addLocalTeams(fixture);
-//     console.table(fixture)
-// }
+for (let i = 0; i < groupStage.results.length; i++) {
+    console.table(groupStage.results[i])
+}
