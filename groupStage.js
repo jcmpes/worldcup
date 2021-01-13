@@ -241,7 +241,7 @@ export default class League extends Championship {
         
         groupStandings.sort(compare);
         this.winners.push(groupStandings[0].teamName, groupStandings[1].teamName);
-        console.log(`Pasan a la siguiente fase: ${winners[0]} y ${winners[1]}`);
+        console.log(`Pasan a la fase eliminitoria: ${this.winners[this.winners.length - 2]} y ${this.winners[this.winners.length - 1]}`);
     };
     
 }
