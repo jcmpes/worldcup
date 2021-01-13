@@ -12,6 +12,7 @@ class League extends Championship{
         this.groups = [];
         this.schedule = [];
         this.results = [];
+        this.winners = [];
     };
 
     shuffleTeams(teamsToShuffle) {
@@ -42,6 +43,7 @@ class League extends Championship{
         const numberOfTeams = group.length;
         const rounds = numberOfTeams - 1;
         const matchesPerRound = numberOfTeams / 2;
+        const winners = []
 
         // Init schedule
         let fixture = [];
@@ -237,10 +239,11 @@ class League extends Championship{
             return -1;
         }
         
-        groupStandings.sort(compare)
-        const winners = [ groupStandings[0].teamName, groupStandings[1].teamName ]
-        console.log(`Pasan a la siguiente fase: ${winners[0]} y ${winners[1]}`)
-    }
+        groupStandings.sort(compare);
+        this.winners.push(groupStandings[0].teamName, groupStandings[1].teamName);
+        console.log(`Pasan a la siguiente fase: ${winners[0]} y ${winners[1]}`);
+    };
+    
 }
 
 const groupStage = new League('groups', teams)
@@ -256,3 +259,4 @@ for (const group of groupStage.groups) {
     groupStage.setSchedule(group);
     groupId++;
 }
+console.log(groupStage.winners)
