@@ -1,10 +1,10 @@
-import fs from 'fs';
-var text = fs.readFileSync("./teams.txt");
-const teams = text.toString().split("\n");
+// import fs from 'fs';
+// var text = fs.readFileSync("./teams.txt");
+// const teams = text.toString().split("\n");
 
 import Championship from './classes/Championship.js'
 
-class League extends Championship{
+export default class League extends Championship {
     constructor(name, teams) {
         super();
         this.name = name;
@@ -246,17 +246,4 @@ class League extends Championship{
     
 }
 
-const groupStage = new League('groups', teams)
-groupStage.setGroups(groupStage.shuffleTeams(teams))
-let groupId = 65;
-for (const group of groupStage.groups) {
-    console.log(" ");
-    console.log("#################");
-    console.log("##             ##");
-    console.log(`##   GRUPO ${String.fromCharCode(groupId)}   ##`);
-    console.log("##             ##");
-    console.log("#################");
-    groupStage.setSchedule(group);
-    groupId++;
-}
-console.log(groupStage.winners)
+

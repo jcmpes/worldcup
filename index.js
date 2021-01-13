@@ -1,17 +1,32 @@
 import { NORMAL_MODE, THIRD_PLACE_MODE }  from './classes/Playoffs.js';
 
 // Import teams from txt local file
-// var fs = require("fs");
 import fs from 'fs';
-var text = fs.readFileSync("./16teams.txt");
+var text = fs.readFileSync("./teams.txt");
 const teams = text.toString().split("\n");
 
 // import Championship from './classes/Championship.js'
-import Playoffs from './classes/Playoffs.js'
+import Playoffs from './classes/Playoffs.js';
+import League from './groupStage.js';
 
+const groupStage = new League('groups', teams)
+groupStage.setGroups(groupStage.shuffleTeams(teams))
+let groupId = 65;
+for (const group of groupStage.groups) {
+    console.log(" ");
+    console.log("#################");
+    console.log("##             ##");
+    console.log(`##   GRUPO ${String.fromCharCode(groupId)}   ##`);
+    console.log("##             ##");
+    console.log("#################");
+    groupStage.setSchedule(group);
+    groupId++;
+}
+console.log(groupStage.winners)
+const teamsToPlayoffs = groupStage.winners
 
 const worldCupPlayOffs = new Playoffs;
-worldCupPlayOffs.teamsToNextRound = worldCupPlayOffs.shuffleTeams(teams);
+worldCupPlayOffs.teamsToNextRound = worldCupPlayOffs.shuffleTeams(teamsToPlayoffs);
 console.log(`
 ==================================================
 ====== COMIENZO DE LA FASE DE ELIMINATORIAS ======

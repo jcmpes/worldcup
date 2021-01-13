@@ -4,7 +4,7 @@ export default class Championship {
         return shuffledTeams;      
     };
 
-    playMatch() {
+    playMatchNoDraw() {
         let result = [0,0];
         while(result[0] == result[1]) {
             result = [
@@ -14,4 +14,12 @@ export default class Championship {
         };
         return result
     };
+
+    playMatch() {
+        let result = [
+            Math.floor(Math.random() * 7),
+            Math.floor(Math.random() * 7)
+        ];
+        return result;
+    }
 }
