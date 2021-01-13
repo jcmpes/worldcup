@@ -10,16 +10,19 @@ import Playoffs from './classes/Playoffs.js';
 import League from './groupStage.js';
 
 const groupStage = new League('groups', teams)
-groupStage.setGroups(groupStage.shuffleTeams(teams))
 
 console.log(`
 ==================================================
-====== COMIENZO DEL MUNIDAL: FASE DE GRUPOS ======
+============== COMIENZO DEL MUNIDAL ==============
 ==================================================
 
-===== EQUIPOS EN EL MUNDIAL: =====
+==================================================
+=========== COMIENZA LA FASE DE GRUPOS ===========
+==================================================
+
 `)
 
+groupStage.setGroups(groupStage.shuffleTeams(teams))
 let groupId = 65;
 for (const group of groupStage.groups) {
     console.log(" ");
