@@ -127,7 +127,7 @@ class League extends Championship{
         ]
          
         
-        // Print rounds results
+        // Print rounds' results
         for (let i = 0; i < rounds; i++) {
             console.log('---------')
             console.log(`Jornada ${i}`)
@@ -156,17 +156,16 @@ class League extends Championship{
                     groupStandings[winnerToUpdate].points += 3;
                     groupStandings[winnerToUpdate].goalsFor += groupResults[i][j][0];
                     groupStandings[winnerToUpdate].goalsAgainst += groupResults[i][j][1];
-                    groupStandings[winnerToUpdate].goalsDiff += (groupResults[i][j][0] - groupResults[i][j][1])
+                    groupStandings[winnerToUpdate].goalsDiff += (groupResults[i][j][0] - groupResults[i][j][1]);
 
                     // Update loser's standings
                     groupStandings[loserToUpdate].points += 0;
-                    groupStandings[loserToUpdate].goalsFor += groupResults[i][j][1]
-                    groupStandings[loserToUpdate].goalsAgainst += groupResults[i][j][0]
-                    groupStandings[loserToUpdate].goalsDiff += (groupResults[i][j][1] - groupResults[i][j][0])
+                    groupStandings[loserToUpdate].goalsFor += groupResults[i][j][1];
+                    groupStandings[loserToUpdate].goalsAgainst += groupResults[i][j][0];
+                    groupStandings[loserToUpdate].goalsDiff += (groupResults[i][j][1] - groupResults[i][j][0]);
 
-                                        
-                } else if (groupResults[i][j][0] < groupResults[i][j][1]) {
-                    // When AWAY TEAM team wins
+                // When AWAY TEAM team wins
+                } else if (groupResults[i][j][0] < groupResults[i][j][1]) {          
                     // Find who won and who lost
                     let winningTeam = fixture[i][j][1];
                     let losingTeam = fixture[i][j][0];
@@ -193,8 +192,9 @@ class League extends Championship{
                     groupStandings[loserToUpdate].goalsFor += groupResults[i][j][1]
                     groupStandings[loserToUpdate].goalsAgainst += groupResults[i][j][0]
                     groupStandings[loserToUpdate].goalsDiff += (groupResults[i][j][1] - groupResults[i][j][0])
+                
+                // When match is a DRAW
                 } else {
-                    // When match is a DRAW
                     let team1 = fixture[i][j][0];
                     let team2 = fixture[i][j][1];
                     // Find team1's position in the groupStandings array
@@ -224,10 +224,22 @@ class League extends Championship{
               
             }
             console.table(groupStandings)
-        
+            
         }
-
-        // Print standings
+        // Print winners of group
+        function compare( a, b ) {
+            if (a.points < b.points) {
+                return 0;
+            } 
+            if (a.points > b.points) {
+                return -1;
+            }
+            return -1;
+        }
+        
+        groupStandings.sort(compare)
+        const winners = [ groupStandings[0].teamName, groupStandings[1].teamName ]
+        console.log(`Pasan a la siguiente fase: ${winners[0]} y ${winners[1]}`)
     }
 }
 
