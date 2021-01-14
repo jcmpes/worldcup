@@ -230,16 +230,28 @@ export default class League extends Championship {
         }
         // Print winners of group
         function compare( a, b ) {
+            // Sort by points
             if (a.points < b.points) {
                 return 0;
             } 
             if (a.points > b.points) {
                 return -1;
             }
+            // In the event of a draw, sort by goalsDiff
+            if (a.points == b.points) {
+                if (a.goalsDiff < b.goalsDiff) {
+                    return 0;
+                }
+                if (a.goalsDiff < b.goalsDiff) {
+                    return 1;
+                }
+            }
             return -1;
         }
         
-        groupStandings.sort(compare);
+        const standingsSorted = groupStandings.sort(compare)
+        console.table(standingsSorted);
+        
         this.winners.push(groupStandings[0].teamName, groupStandings[1].teamName);
         console.log(`Pasan a la fase eliminitoria: ${this.winners[this.winners.length - 2]} y ${this.winners[this.winners.length - 1]}`);
     };
