@@ -244,6 +244,16 @@ export default class League extends Championship {
             console.table(groupStandings)
             
         }
+
+        let teamsInDraw = []
+        const drawsCounter = {}
+        drawsCounter[group[0]] = 0
+        drawsCounter[group[1]] = 0
+        drawsCounter[group[2]] = 0
+        drawsCounter[group[3]] = 0
+
+
+
         // Print winners of group
         function compare( a, b ) {
             // Sort by points
@@ -254,58 +264,84 @@ export default class League extends Championship {
                 return -1;
             }
             // In the event of a draw determine who won in the last match against the other team
-            for(let i = 0; i < groupResultsRecord.length; i++) {
-                if (groupResultsRecord[i][0] == a.teamName && groupResultsRecord[i][1] == b.teamName) {
-                    if (groupResultsRecord[i][2] == "won") {
-                        return -1;
-                    }
-                    if (groupResultsRecord[i][2] == "lost") {
-                        return 1;            
-                    }
-                    if (groupResultsRecord[i][2] == "draw") {
-                        // In the event of a draw, sort by goalsDiff
-                            if (a.goalsDiff < b.goalsDiff) {
-                                return 1;
-                            }
-                            if (a.goalsDiff > b.goalsDiff) {
-                                return -1;
-                            }
-                            // In the event of a draw, do alphabetic sort
-                            if (a.teamName < b.teamName) {
-                                return -1;
-                            }
-                            if (a.teamName > b.teamName) {
-                                return 1;
-                            }
-                    }
-                }             
-                if (groupResultsRecord[i][1] == a.teamName && groupResultsRecord[i][0] == b.teamName) {
-                    if (groupResultsRecord[i][2] == "won") {
-                        return 0;
-                    }
-                    if (groupResultsRecord[i][2] == "lost") {
-                        return -1;            
-                    }
-                    if (groupResultsRecord[i][2] == "draw") {
-                        // In the event of a draw, sort by goalsDiff
-                            if (a.goalsDiff < b.goalsDiff) {
-                                return 1;
-                            }
-                            if (a.goalsDiff > b.goalsDiff) {
-                                return -1;
-                            }
-                            // In the event of a draw, do alphabetic sort
-                            if (a.teamName < b.teamName) {
-                                return -1;
-                            }
-                            if (a.teamName > b.teamName) {
-                                return 1;
+
+            teamsInDraw = groupStandings.filter(team => team.points == a.points)
+            for (const team of teamsInDraw) {
+                team.wins = 0;
+            }
+            // In case of threefold or fourfold draw
+            if (teamsInDraw.length > 2) {
+                // mini league system
+                for (let i = 0; i < teamsInDraw.length; i++) {
+                    for (let j = 0; j < groupResultsRecord.length; j++) {
+                        if (teamsInDraw[i].teamName == groupResultsRecord[j][0] && teamsInDraw.some(team => team.teamName == groupResultsRecord[j][1])) {
+                            if (groupResultsRecord[j][2] == 'won') {
+                                teamsInDraw[i].wins += 1
                             }
                         }
+                        if (teamsInDraw[i].teamName == groupResultsRecord[j][1] && teamsInDraw.some(team => team.teamName == groupResultsRecord[j][0])) {
+                            if (groupResultsRecord[j][2] == 'lost') {
+                                teamsInDraw[i].wins += 1
+                            }
+                        }
+                    }
+                }
+            } else if (teamsInDraw.length == 2) {
+                // In case of simple points draw resolve for the two teams
+                for(let i = 0; i < groupResultsRecord.length; i++) {
+                    if (groupResultsRecord[i][0] == a.teamName && groupResultsRecord[i][1] == b.teamName) {
+                        if (groupResultsRecord[i][2] == "won") {
+                            drawsCounter[a.teamName] += 1;
+                        }
+                        if (groupResultsRecord[i][2] == "lost") {
+                            drawsCounter[b.teamName] += 1;           
+                        }
+                        if (groupResultsRecord[i][2] == "draw") {
+                        }
+                        // In the event of a draw, sort by goalsDiff
+                        if (a.goalsDiff < b.goalsDiff) {
+                            return 1;
+                        }
+                        if (a.goalsDiff > b.goalsDiff) {
+                            return -1;
+                        }
+                        // In the event of a draw, do alphabetic sort
+                        if (a.teamName < b.teamName) {
+                            return -1;
+                        }
+                        if (a.teamName > b.teamName) {
+                            return 1;
+                        }                   
+                    }             
+                    if (groupResultsRecord[i][1] == a.teamName && groupResultsRecord[i][0] == b.teamName) {
+                        if (groupResultsRecord[i][2] == "won") {
+                            drawsCounter[b.teamName] += 1;
+                        }
+                        if (groupResultsRecord[i][2] == "lost") {
+                            drawsCounter[a.teamName] += 1;            
+                        }
+                        if (groupResultsRecord[i][2] == "draw") {
+                        }
+                        // In the event of a draw, sort by goalsDiff
+                        if (a.goalsDiff < b.goalsDiff) {
+                            return 1;
+                        }
+                        if (a.goalsDiff > b.goalsDiff) {
+                            return -1;
+                        }
+                        // In the event of a draw, do alphabetic sort
+                        if (a.teamName < b.teamName) {
+                            return -1;
+                        }
+                        if (a.teamName > b.teamName) {
+                            return 1;
+                        }
+                            
+                    }
                 }
             }
             return -1;
-        }     
+        }
         
         const standingsSorted = groupStandings.sort(compare)
         console.table(standingsSorted);
