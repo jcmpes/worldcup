@@ -245,14 +245,8 @@ export default class League extends Championship {
             
         }
 
+        // Counter of number of teams that have the same number of points
         let teamsInDraw = []
-        const drawsCounter = {}
-        drawsCounter[group[0]] = 0
-        drawsCounter[group[1]] = 0
-        drawsCounter[group[2]] = 0
-        drawsCounter[group[3]] = 0
-
-
 
         // Print winners of group
         function compare( a, b ) {
@@ -286,15 +280,41 @@ export default class League extends Championship {
                         }
                     }
                 }
+                // Team with more wins, wins the mini league
+                let winnerOfMiniLeague = []
+                for (let i = 0; i < teamsInDraw; i++) {
+                    if (teamsInDraw[i].wins >= 1) {
+                        winnerOfMiniLeague.push(teamsInDraw[i].teamName)
+                    }
+                    if (teamsInDraw[i].wins == 2 && a.teamName == teamsInDraw[i]) {
+                        return -1;
+                    }
+                }
+                // In the event of a tie in the mini league number of wins go and resolve with the next criteria, goalsDiff
+                if (winnerOfMiniLeague.lenght == teamsInDraw.lenght) {
+                    if (a.goalsDiff < b.goalsDiff) {
+                        return 1;
+                    }
+                    if (a.goalsDiff > b.goalsDiff) {
+                        return -1;
+                    }
+                    // In the event of a draw, do alphabetic sort
+                    if (a.teamName < b.teamName) {
+                        return -1;
+                    }
+                    if (a.teamName > b.teamName) {
+                        return 1;
+                    }
+                }
             } else if (teamsInDraw.length == 2) {
                 // In case of simple points draw resolve for the two teams
                 for(let i = 0; i < groupResultsRecord.length; i++) {
                     if (groupResultsRecord[i][0] == a.teamName && groupResultsRecord[i][1] == b.teamName) {
                         if (groupResultsRecord[i][2] == "won") {
-                            drawsCounter[a.teamName] += 1;
+                            return -1;
                         }
                         if (groupResultsRecord[i][2] == "lost") {
-                            drawsCounter[b.teamName] += 1;           
+                            return 1;           
                         }
                         if (groupResultsRecord[i][2] == "draw") {
                         }
@@ -315,10 +335,10 @@ export default class League extends Championship {
                     }             
                     if (groupResultsRecord[i][1] == a.teamName && groupResultsRecord[i][0] == b.teamName) {
                         if (groupResultsRecord[i][2] == "won") {
-                            drawsCounter[b.teamName] += 1;
+                            return 1;
                         }
                         if (groupResultsRecord[i][2] == "lost") {
-                            drawsCounter[a.teamName] += 1;            
+                            return -1;            
                         }
                         if (groupResultsRecord[i][2] == "draw") {
                         }
