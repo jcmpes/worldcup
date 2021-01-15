@@ -127,7 +127,8 @@ export default class League extends Championship {
             { teamName: group[2], points: null, goalsFor: null, goalsAgainst: null, goalsDiff: null },
             { teamName: group[3], points: null, goalsFor: null, goalsAgainst: null, goalsDiff: null },
         ]
-         
+        
+        const groupResultsRecord = []
         
         // Print rounds' results
         for (let i = 0; i < rounds; i++) {
@@ -136,9 +137,14 @@ export default class League extends Championship {
             console.log('---------')  
             for (let j = 0; j < matchesPerRound; j++) {
                 console.log(`${fixture[i][j][0]} ${groupResults[i][j][0]} - ${groupResults[i][j][1]} ${fixture[i][j][1]}`);
+                
                 // Update standings after match result is known
                 // When HOME TEAM team wins
                 if (groupResults[i][j][0] > groupResults[i][j][1]) {
+                    // Resgister victory for clearing standings in the event og tie in the points later on
+                    groupResultsRecord.push({ teamName: fixture[i][j][0] })
+                    groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "won" 
+
                     // Find who won and who lost
                     let winningTeam = fixture[i][j][0];
                     let losingTeam = fixture[i][j][1];
@@ -167,7 +173,10 @@ export default class League extends Championship {
                     groupStandings[loserToUpdate].goalsDiff += (groupResults[i][j][1] - groupResults[i][j][0]);
 
                 // When AWAY TEAM team wins
-                } else if (groupResults[i][j][0] < groupResults[i][j][1]) {          
+                } else if (groupResults[i][j][0] < groupResults[i][j][1]) { 
+                    // Resgister victory for clearing standings in the event og tie in the points later on
+                    groupResultsRecord.push({ teamName: fixture[i][j][0] })
+                    groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "lost"      
                     // Find who won and who lost
                     let winningTeam = fixture[i][j][1];
                     let losingTeam = fixture[i][j][0];
@@ -197,6 +206,10 @@ export default class League extends Championship {
                 
                 // When match is a DRAW
                 } else {
+                    // Resgister draw for clearing standings in the event og tie in the points later on
+                    groupResultsRecord.push({ teamName: fixture[i][j][0] })
+                    groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "draw"
+
                     let team1 = fixture[i][j][0];
                     let team2 = fixture[i][j][1];
                     // Find team1's position in the groupStandings array
@@ -244,6 +257,13 @@ export default class League extends Championship {
                 }
                 if (a.goalsDiff < b.goalsDiff) {
                     return 1;
+                }
+                // In the event of a draw, do alphabetic sort
+                if (a.teamName < b.teamName) {
+                    return 0;
+                }
+                if (a.teamName > b.teamName) {
+                    return -1;
                 }
             }
             return -1;
