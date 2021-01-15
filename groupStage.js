@@ -44,6 +44,7 @@ export default class League extends Championship {
         const rounds = numberOfTeams - 1;
         const matchesPerRound = numberOfTeams / 2;
         const winners = []
+        const groupResultsRecord = []
 
         // Init schedule
         let fixture = [];
@@ -128,7 +129,6 @@ export default class League extends Championship {
             { teamName: group[3], points: null, goalsFor: null, goalsAgainst: null, goalsDiff: null },
         ]
         
-        const groupResultsRecord = []
         
         // Print rounds' results
         for (let i = 0; i < rounds; i++) {
@@ -142,8 +142,9 @@ export default class League extends Championship {
                 // When HOME TEAM team wins
                 if (groupResults[i][j][0] > groupResults[i][j][1]) {
                     // Resgister victory to clearing standings in the event og tie in the points later on
-                    groupResultsRecord.push({ teamName: fixture[i][j][0] })
-                    groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "won" 
+                    const newResultRecord = new Array()
+                    newResultRecord.push(fixture[i][j][0] , fixture[i][j][1], "won")
+                    groupResultsRecord.push(newResultRecord)
 
                     // Find who won and who lost
                     let winningTeam = fixture[i][j][0];
@@ -175,8 +176,9 @@ export default class League extends Championship {
                 // When AWAY TEAM team wins
                 } else if (groupResults[i][j][0] < groupResults[i][j][1]) { 
                     // Resgister victory to determine standings in the event og tie in the points later on
-                    groupResultsRecord.push({ teamName: fixture[i][j][0] })
-                    groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "lost"      
+                    const newResultRecord = new Array()
+                    newResultRecord.push(fixture[i][j][0], fixture[i][j][1], "lost")
+                    groupResultsRecord.push(newResultRecord)
                     // Find who won and who lost
                     let winningTeam = fixture[i][j][1];
                     let losingTeam = fixture[i][j][0];
@@ -207,8 +209,9 @@ export default class League extends Championship {
                 // When match is a DRAW
                 } else {
                     // Resgister draw to determine standings in the event og tie in the points later on
-                    groupResultsRecord.push({ teamName: fixture[i][j][0] })
-                    groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "draw"
+                    const newResultRecord = new Array()
+                    newResultRecord.push(fixture[i][j][0], fixture[i][j][1], "draw")
+                    groupResultsRecord.push(newResultRecord)
 
                     let team1 = fixture[i][j][0];
                     let team2 = fixture[i][j][1];
@@ -245,29 +248,64 @@ export default class League extends Championship {
         function compare( a, b ) {
             // Sort by points
             if (a.points < b.points) {
-                return 0;
+                return 1;
             } 
             if (a.points > b.points) {
                 return -1;
             }
-            // In the event of a draw, sort by goalsDiff
-            if (a.points == b.points) {
-                if (a.goalsDiff < b.goalsDiff) {
-                    return 0;
-                }
-                if (a.goalsDiff < b.goalsDiff) {
-                    return 1;
-                }
-                // In the event of a draw, do alphabetic sort
-                if (a.teamName < b.teamName) {
-                    return 0;
-                }
-                if (a.teamName > b.teamName) {
-                    return -1;
+            // In the event of a draw determine who won in the last match against the other team
+            for(let i = 0; i < groupResultsRecord.length; i++) {
+                if (groupResultsRecord[i][0] == a.teamName && groupResultsRecord[i][1] == b.teamName) {
+                    if (groupResultsRecord[i][2] == "won") {
+                        return -1;
+                    }
+                    if (groupResultsRecord[i][2] == "lost") {
+                        return 1;            
+                    }
+                    if (groupResultsRecord[i][2] == "draw") {
+                        // In the event of a draw, sort by goalsDiff
+                            if (a.goalsDiff < b.goalsDiff) {
+                                return 1;
+                            }
+                            if (a.goalsDiff > b.goalsDiff) {
+                                return -1;
+                            }
+                            // In the event of a draw, do alphabetic sort
+                            if (a.teamName < b.teamName) {
+                                return -1;
+                            }
+                            if (a.teamName > b.teamName) {
+                                return 1;
+                            }
+                    }
+                }             
+                if (groupResultsRecord[i][1] == a.teamName && groupResultsRecord[i][0] == b.teamName) {
+                    if (groupResultsRecord[i][2] == "won") {
+                        return 0;
+                    }
+                    if (groupResultsRecord[i][2] == "lost") {
+                        return -1;            
+                    }
+                    if (groupResultsRecord[i][2] == "draw") {
+                        // In the event of a draw, sort by goalsDiff
+                            if (a.goalsDiff < b.goalsDiff) {
+                                return 1;
+                            }
+                            if (a.goalsDiff > b.goalsDiff) {
+                                return -1;
+                            }
+                            // In the event of a draw, do alphabetic sort
+                            if (a.teamName < b.teamName) {
+                                return -1;
+                            }
+                            if (a.teamName > b.teamName) {
+                                return 1;
+                            }
+                        }
                 }
             }
             return -1;
-        }
+        }     
         
         const standingsSorted = groupStandings.sort(compare)
         console.table(standingsSorted);
