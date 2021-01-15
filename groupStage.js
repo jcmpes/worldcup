@@ -141,7 +141,7 @@ export default class League extends Championship {
                 // Update standings after match result is known
                 // When HOME TEAM team wins
                 if (groupResults[i][j][0] > groupResults[i][j][1]) {
-                    // Resgister victory for clearing standings in the event og tie in the points later on
+                    // Resgister victory to clearing standings in the event og tie in the points later on
                     groupResultsRecord.push({ teamName: fixture[i][j][0] })
                     groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "won" 
 
@@ -174,7 +174,7 @@ export default class League extends Championship {
 
                 // When AWAY TEAM team wins
                 } else if (groupResults[i][j][0] < groupResults[i][j][1]) { 
-                    // Resgister victory for clearing standings in the event og tie in the points later on
+                    // Resgister victory to determine standings in the event og tie in the points later on
                     groupResultsRecord.push({ teamName: fixture[i][j][0] })
                     groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "lost"      
                     // Find who won and who lost
@@ -206,7 +206,7 @@ export default class League extends Championship {
                 
                 // When match is a DRAW
                 } else {
-                    // Resgister draw for clearing standings in the event og tie in the points later on
+                    // Resgister draw to determine standings in the event og tie in the points later on
                     groupResultsRecord.push({ teamName: fixture[i][j][0] })
                     groupResultsRecord[groupResultsRecord.length - 1][fixture[i][j][1]] = "draw"
 
