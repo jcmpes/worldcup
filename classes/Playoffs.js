@@ -16,13 +16,40 @@ export default class Playoffs extends Championship {
         this.teams = teams
     };
 
+    rearrange(arr) {
+        const a = arr[1];
+        arr[1] = arr[2];
+        arr[2] = a;
+        return arr
+    }
 
     newRound(teamsToSchedule, mode) {
         // Schedule matches
         this.matchDays = [];
-        for(let i = 0; i < teamsToSchedule.length; i = i+2) {
-            this.matchDays.push(new Array(teamsToSchedule[i], teamsToSchedule[i+1]))
-        };
+        if(teamsToSchedule.length <= 2) {
+            for(let i = 0; i < teamsToSchedule.length; i = i+2) {
+                this.matchDays.push(new Array(teamsToSchedule[i], teamsToSchedule[i+1]))
+            };
+        }
+        if(teamsToSchedule.length > 2) {
+            // Divide array in arrays of 4 items and rearrange [1, 0, 2, 3] => [1, 2, 0, 3]
+            let arr = []
+            let newArr = []
+            for(let i = 0; i < teamsToSchedule.length; i = i+4) {
+                arr.push(this.rearrange(teamsToSchedule.slice(i, i + 4)))
+            }
+
+            for (let j = 0; j < arr.length; j++) {        
+                for (let k = 0; k < 4; k++) {
+                    newArr.push(arr[j][k])
+
+                }
+            }
+            
+            for(let i = 0; i < newArr.length; i = i+2) {
+                this.matchDays.push(new Array(newArr[i], newArr[i+1]))
+            };
+        } 
 
         // Play the matches
         this.resultsOfRound = [];
