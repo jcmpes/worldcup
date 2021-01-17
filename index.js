@@ -38,7 +38,18 @@ console.log(groupStage.winners)
 const teamsToPlayoffs = groupStage.winners
 
 const worldCupPlayOffs = new Playoffs;
-worldCupPlayOffs.teamsToNextRound = teamsToPlayoffs;
+
+// Get teams in groups of 4 and swap indexes 0 and 1
+const teamsSwapped = []
+for (let i = 0; i < teamsToPlayoffs.length; i = i + 4) {
+    teamsSwapped.push(teamsToPlayoffs.slice(i, i+4))
+    const fourTeams = teamsSwapped[teamsSwapped.length - 1]
+    const temp = fourTeams[0]
+    fourTeams[0] = fourTeams[1] 
+    fourTeams[1] = temp
+}
+const teamsToStartPlayOffs = [...teamsSwapped[0], ...teamsSwapped[1], ...teamsSwapped[2], ...teamsSwapped[3]]
+worldCupPlayOffs.teamsToNextRound = teamsToStartPlayOffs;
 console.log(`
 ==================================================
 ====== COMIENZO DE LA FASE DE ELIMINATORIAS ======
