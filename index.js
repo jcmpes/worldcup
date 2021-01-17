@@ -34,9 +34,14 @@ for (const group of groupStage.groups) {
     groupStage.setSchedule(group);
     groupId++;
 }
-console.log(groupStage.winners)
-const teamsToPlayoffs = groupStage.winners
 
+// Show who passes to the playoffs
+console.log('');
+console.log('Estos son los equipos que pasan de fase:')
+console.log(groupStage.winners)
+
+// Prepare teams to start the playoffs
+const teamsToPlayoffs = groupStage.winners
 const worldCupPlayOffs = new Playoffs;
 
 // Get teams in groups of 4 and swap indexes 0 and 1
