@@ -1,6 +1,6 @@
 {
   "name": "nodejs-worldcup-simulator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Worldcup simulator for the Introduction to JS of Keepcoding Web X Bootcamp",
   "main": "index.js",
   "scripts": {
