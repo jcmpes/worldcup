@@ -1,5 +1,5 @@
 {
-  "name": "worldcup",
+  "name": "node-worldcup",
   "version": "1.0.0",
   "description": "Worldcup simulator for the Introduction to JS of Keepcoding Web X Bootcamp",
   "main": "index.js",
